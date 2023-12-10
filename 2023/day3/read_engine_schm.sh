@@ -5,7 +5,8 @@
 ## part 1
 ## part 2
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day3/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 declare -A LINES_ARR
 declare -A SPECIAL_CHAR_IND
@@ -48,7 +49,7 @@ while IFS= read -r line; do
     ind_counter=$((ind_counter+1))
   done
   LINE_NUMBER=$((LINE_NUMBER+1))
-done < $INPUT_DATA
+done < "$INPUT_DATA"
 
 SUM=0
 GEAR_RATIO_SUM=0

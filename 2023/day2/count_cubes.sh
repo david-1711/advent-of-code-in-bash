@@ -4,7 +4,8 @@
 
 ## part 1
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day2/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 RED_MAX=12
 GREEN_MAX=13
@@ -56,7 +57,7 @@ while IFS= read -r line; do
   if [[ $SET_INVALID == "false" ]]; then
     VALID_GAMES+=("$GAME_NUM")
   fi
-done < ${INPUT_DATA}
+done < "${INPUT_DATA}"
 
 #echo -e "\nValid games:"
 SUM_VALID=0
@@ -120,7 +121,7 @@ while IFS= read -r line; do
   POWER=$((RED_MAX*GREEN_MAX*BLUE_MAX))
   #echo "Power: $POWER"
   SUM_OF_POWER=$((SUM_OF_POWER+POWER))
-done < ${INPUT_DATA}
+done < "${INPUT_DATA}"
 
 echo "Sum of power: $SUM_OF_POWER" #71036
 

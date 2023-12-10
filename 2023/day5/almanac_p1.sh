@@ -4,7 +4,8 @@
 
 ## part 1
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day5/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 declare -A RANGES
 
@@ -23,7 +24,7 @@ while IFS= read -r line; do
             RANGES["$count_blk"]+=";$line"
         fi
     fi
-done < $INPUT_DATA
+done < "$INPUT_DATA"
 
 #echo "$SEEDS"
 
@@ -63,5 +64,5 @@ for ((k=1;k<=${#RANGES[*]};k++)); do
     #echo "New seeds: $SEEDS"
 done
 
-echo "Lowest location number: $(echo "$SEEDS" | tr ' ' '\n' | sort -n | head -n 2 | tail -n 1)"
+echo "Lowest location number: $(echo "$SEEDS" | tr ' ' '\n' | sort -n | head -n 2 | tail -n 1)" #650599855
 

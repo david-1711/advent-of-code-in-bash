@@ -5,7 +5,8 @@
 ## part 1
 ## part 2
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day4/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 function find_match()
 {
@@ -61,7 +62,7 @@ while IFS= read -r line; do
         #echo "There is now ${CARDS[$sum]} cards with id $sum"
     done
     CARD_NUMBER=$((CARD_NUMBER+1))
-done < $INPUT_DATA
+done < "$INPUT_DATA"
 
 echo "Power_sum:$POWER_SUM" #22674
 

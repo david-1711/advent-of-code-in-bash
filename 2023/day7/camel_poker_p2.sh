@@ -2,9 +2,10 @@
 
 # https://adventofcode.com/2023/day/7
 
-## part 1
+## part 2
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day7/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 declare -a GAMES
 
@@ -102,14 +103,22 @@ while IFS= read -r line; do
     #echo $hand $bid
     remapped_hand=$(remap_hand "$hand")
     sorted_hand=$(remap_hand "$hand" |  sed 's/./&\n/g' | sort -r)
+    # shellcheck disable=SC2116
+    # shellcheck disable=SC2086
     sorted_hand="$(echo $sorted_hand)" ##to remove needles spaces and tabs created by sort command
     count_unique=$(echo "$sorted_hand" | tr " " "\n" | uniq -c)
+    # shellcheck disable=SC2116
+    # shellcheck disable=SC2086
     cunt_unique="$(echo ${count_unique})" ##to remove needles spaces and tabs created by uniq command
     opt_card=$(optimize_jocker_hand "$sorted_hand" "$cunt_unique")
 
     sorted_hand="$(echo "$opt_card" |  tr " " "\n" | sort -r)" ##to remove needles spaces and tabs created by sort command
+    # shellcheck disable=SC2116
+    # shellcheck disable=SC2086
     sorted_hand="$(echo $sorted_hand)" ##to remove needles spaces and tabs created by sort command
     count_unique=$(echo "$sorted_hand" | tr " " "\n" | uniq -c)
+    # shellcheck disable=SC2116
+    # shellcheck disable=SC2086
     cunt_unique="$(echo ${count_unique})" ##to remove needles spaces and tabs created by uniq command
 
     determine_hand_strenght "$cunt_unique"
@@ -124,6 +133,7 @@ while IFS= read -r line; do
     ## sorting by using 2 keys
     ## key1 is $strenght
     ## key2 is #remapped_hand
+    # shellcheck disable=SC2207
     GAMES=($(sort -t ";" -k 1 -k 2 <<<"${GAMES[*]}"))
     IFS=$' \t\n' ##return to original IFS
 done < "$INPUT_DATA"

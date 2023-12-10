@@ -4,7 +4,8 @@
 
 ## part 2
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day5/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 declare -a SEEDS_LIST
 declare -A RANGES
@@ -24,7 +25,7 @@ while IFS= read -r line; do
             RANGES["$count_blk"]+=";$line"
         fi
     fi
-done < $INPUT_DATA
+done < "$INPUT_DATA"
 
 read -ra SEEDS_LIST <<< "$SEEDS"
 
@@ -45,7 +46,7 @@ for ((k=1;k<=${#RANGES[*]};k++)); do
     #printf "%s\n" "$k=${RANGES[$k]}"
     MAP=""
     seeds_list_lenght=${#SEEDS_LIST[*]}
-    for ((s=0;s<$seeds_list_lenght;s=s+2)); do
+    for ((s=0;s<seeds_list_lenght;s=s+2)); do
         #echo "seeds_lenght:$seeds_list_lenght"
         s_start=${SEEDS_LIST[$s]}
         next=$((s+1))
@@ -108,5 +109,5 @@ for ((k=1;k<=${#RANGES[*]};k++)); do
 #  [[ $cnt == 2 ]] && break
 done
 
-echo "Min seeds: $(echo "$SEEDS" | tr ' ' '\n' | sort -n | head -n 2 | tail -n 1)"
+echo "Min seeds: $(echo "$SEEDS" | tr ' ' '\n' | sort -n | head -n 2 | tail -n 1)" #1240035
 

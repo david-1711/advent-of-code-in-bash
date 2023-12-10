@@ -4,13 +4,14 @@
 
 ## part1
 
-INPUT_DATA=$1
+SCRIPT_DIR=$PWD/2023/day6/
+INPUT_DATA=$SCRIPT_DIR/input_data
 
 declare -a TIME_ARRAY
 declare -a DIST_ARRAY
 
-read -ra TIME_ARRAY <<< $(head -n 1 $INPUT_DATA)
-read -ra DIST_ARRAY <<< $(tail -n 1 $INPUT_DATA)
+read -ra TIME_ARRAY <<< "$(head -n 1 "$INPUT_DATA")"
+read -ra DIST_ARRAY <<< "$(tail -n 1 "$INPUT_DATA")"
 
 #echo ${TIME_ARRAY[@]}
 #echo ${DIST_ARRAY[@]}
@@ -24,4 +25,4 @@ for ((i=1;i<${#TIME_ARRAY[@]};i++)); do
     done
     N=$((N*comb))
 done
-echo "Ways to beat the game: $N"
+echo "Ways to beat the game: $N" #1084752
