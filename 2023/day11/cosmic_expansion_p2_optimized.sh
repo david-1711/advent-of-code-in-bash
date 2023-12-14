@@ -69,37 +69,26 @@ function expand_universe_vertical()
     done    
 }
 
-function determine_multiplier()
+function expand_locations_of_galaxies()
 {
-    local num1=$1
-    local num2=$2
-    local list_to_search=$3
-    local multiplier
-    local multiplier_exist
+    local expanded_rows
+    local expanded_columns
+    local column_multiplier
+    local row_multiplier
 
-    multiplier=0
-    multiplier_exist=1
+    expanded_rows=${LINES[-2]#* }
+    expanded_columns=${LINES[-1]#* }
 
-    if [[ $num2 -gt $num1 ]]; then
-        start1=$num1
-        end1=$num2
-        multiplier_exist=0
-    elif [[ $num1 -gt $num2 ]]; then
-        start1=$num2
-        end1=$num1
-        multiplier_exist=0
-    fi
-
-    if [[ $multiplier_exist == 0 ]]; then
-        for ((start1=start1+1;start1<end1;start1++)); do
-            #echo "Searching for: $start1"
-            if grep -qw "$start1" <<< "$list_to_search"; then
-                multiplier=$((multiplier+SCALE))
-                #echo "multiplier=$multiplier"
-            fi
-        done
-    fi
-    echo "$multiplier"
+    for ((i=0;i<${#GALAXIES[@]};i++)); do
+        # printf "%s\n" "${GALAXIES[$i]%%,*}"
+        # printf "%s\n" "${GALAXIES[$i]#*,}"
+        #printf "%s\n" "old:${GALAXIES[$i]}"
+        column_multiplier=$(echo "$expanded_columns" | sed "s/\([^ ]\+\)/(\1<${GALAXIES[$i]#*,}) + /g; s/ + $//" | bc)
+        row_multiplier=$(echo "$expanded_rows" | sed "s/\([^ ]\+\)/(\1<${GALAXIES[$i]%%,*}) + /g; s/ + $//" | bc)
+        GALAXIES["$i"]="$(( ${GALAXIES[$i]%%,*}+ (row_multiplier*SCALE) )),$(( ${GALAXIES[$i]#*,}+ (column_multiplier*SCALE) ))"
+        #echo "rm:$row_multiplier cm:$column_multiplier"
+        #printf "%s\n" "${GALAXIES[$i]}"
+    done
 }
 
 ## x1=$1 y1=$2 x2=$3 y2=$4
@@ -109,29 +98,18 @@ function calculate_distance()
     local x2
     local y1
     local y2
-    local line_lenght
-    local row_multiplier
-    local column_multiplier
 
     x1=$1
     y1=$2
     x2=$3
     y2=$4
 
-    expanded_rows=${LINES[-2]#* }
-    expanded_columns=${LINES[-1]#* }
-    #echo "expanded_rows:$expanded_rows"
-    #echo "expanded_columns:$expanded_columns"
-
-    row_multiplier="$(determine_multiplier "$y1" "$y2" "$expanded_columns")"
-    column_multiplier="$(determine_multiplier "$x1" "$x2" "$expanded_rows")"
-
     num1=$((x2 - x1))
     num1=${num1/-/}
-    num1=$((num1+column_multiplier))
+    #num1=$((num1+column_multiplier))
     num2=$((y2 - y1))
     num2=${num2/-/}
-    num2=$((num2+row_multiplier))
+    #num2=$((num2+row_multiplier))
     echo $((num1+num2))
     
     #echo -e "row_multiplier=$row_multiplier column_multiplier:$column_multiplier"
@@ -159,4 +137,6 @@ expand_universe_vertical
 #   printf "%s\n" "${GALAXIES[$i]}"
 # done
 
-find_permutatons | paste -sd"+" | bc ##363293506944
+expand_locations_of_galaxies
+
+find_permutatons | paste -sd"+" | bc #363293506944
